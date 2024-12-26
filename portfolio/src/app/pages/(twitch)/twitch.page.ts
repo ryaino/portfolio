@@ -1,26 +1,43 @@
-import {Component, Inject} from '@angular/core';
-import {CommonModule, DOCUMENT} from '@angular/common';
+import {Component, inject, Inject, PLATFORM_ID} from '@angular/core';
+import {CommonModule, DOCUMENT, isPlatformBrowser} from '@angular/common';
 import {Router} from "@angular/router";
 import {HttpParams} from "@angular/common/http";
+import {FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
+import TwitchService from "./twitch.service";
+import {firstValueFrom} from "rxjs";
 @Component({
   selector: 'twitch',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   styles: ``,
   template: `
-    <button (click)="login()">
-      Login
-    </button>
+    <div>
+      <button (click)="login()">
+        Login
+      </button>
+    </div>
+    <div>
+      <input [formControl]="webhookUrl" type="text" placeholder="webhook url">
+      <input [formControl]="subscriptionType" type="text" placeholder="subscription type">
+      <input [formControl]="version" type="text" placeholder="version">
+      <button (click)="registerSubscription()"> Register Subscription </button>
+    </div>
   `
 })
 export default class TwitchPage {
 
-  constructor(@Inject(DOCUMENT) private document: Document) {
-    const eventSource = new EventSource('/api/v1/twitch/sse')
+  webhookUrl = new FormControl<string>('', [Validators.required]);
+  subscriptionType = new FormControl<string>('', [Validators.required]);
+  version = new FormControl<string>('', [Validators.required]);
 
-    eventSource.onmessage = (event) => {
-      console.log(event.data)
-    }
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private service: TwitchService
+    ) {
+      const eventSource = new EventSource('/api/v1/twitch/sse')
+      eventSource.onmessage = (event) => {
+        console.log(event.data)
+      }
   }
 
   login() {
@@ -32,6 +49,16 @@ export default class TwitchPage {
       .set('scope', 'channel:bot');
 
     this.document.location.href = 'https://id.twitch.tv/oauth2/authorize?' + params.toString();
+  }
 
+  async registerSubscription() {
+    await firstValueFrom(
+      this.service.registerSubscription(
+        {
+          webhookUrl: this.webhookUrl.value!,
+          subscriptionType: this.subscriptionType.value!,
+          version: this.version.value!,
+        },)
+  );
   }
 }

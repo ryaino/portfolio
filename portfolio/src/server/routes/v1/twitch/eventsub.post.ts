@@ -1,6 +1,8 @@
 import {defineEventHandler, H3Event, EventHandlerRequest, readBody, setResponseStatus, setResponseHeaders} from "h3";
 import * as crypto from 'crypto';
 import {EVENT_STREAM_CLIENTS} from "./sse";
+import {TWITCH_EVENT_TYPE} from "../../../twitch/events.model";
+import {HandleChannelChatMessage} from "../../../twitch/handleChannelChatMessage";
 
 const TWITCH_MESSAGE_ID = 'Twitch-Eventsub-Message-Id'.toLowerCase();
 const TWITCH_MESSAGE_TIMESTAMP = 'Twitch-Eventsub-Message-Timestamp'.toLowerCase();
@@ -24,37 +26,21 @@ export default defineEventHandler(async (event) => {
     setResponseStatus(event, 403, "Signatures didn't match");
     return;
   }
-  console.log("signatures match");
-
   // Get JSON object from body, so you can process the message.
   let notification = await readBody(event);
   const messageType = event.headers.get(MESSAGE_TYPE);
 
   if (MESSAGE_TYPE_NOTIFICATION === messageType) {
-    // TODO: Do something with the event's data.
 
-    console.log(`Event type: ${notification.subscription.type}`);
-    console.log(JSON.stringify(notification.event, null, 4));
+    if(notification.subscription.type === TWITCH_EVENT_TYPE.ChannelChatMessage) {
+      await HandleChannelChatMessage(notification.event);
 
-    for (const client of EVENT_STREAM_CLIENTS) {
-      await client.push('This is an event from getting a twitch message');
-    }
-
-    if(notification.event.message?.text === 'PP') {
-      const headers = {
-        'Authorization': 'Bearer ' + import.meta.env['VITE_TWITCH_APPLICATION_ACCESS_TOKEN'],
-        'Client-Id': import.meta.env['VITE_TWITCH_APPLICATION_CLIENT_ID'],
-        'Content-Type': 'application/json',
-      };
-      const response = await $fetch('https://api.twitch.tv/helix/chat/messages', {
-        method: "POST",
-        headers,
-        body: {
-          broadcaster_id: '30631605',
-          sender_id: '1219437984',
-          message: "Hello, World! HeyGuys"
-        }
-      });
+      for (const client of EVENT_STREAM_CLIENTS) {
+        await client.push([
+           notification.event.chatter_user_name,
+          notification.event.message.text,
+        ]);
+      }
     }
 
     setResponseStatus(event, 204, "success");
