@@ -1,0 +1,63 @@
+<div class="container"
+     [ngStyle]="{
+      'text-shadow': '1px 1px 2px ' + shadowColor$$()
+      }"
+>
+  @if(currentTrack$$()) {
+    <div
+      class="album-artwork"
+      [style.background]="'linear-gradient(90deg,' + leftoverColors$$()[0] + ' 0%, '+ leftoverColors$$()[1] +' 100%)'"
+    >
+      @if(albumUrl$$() !== null){
+        <img
+          [src]="albumUrl$$()!"
+          [width]="64"
+          [height]="64"
+          alt=""
+        />
+      }
+    </div>
+    <div
+      class="right-side"
+      [ngStyle]="{
+          'color': barColor$$()
+        }"
+      [style.background]="'linear-gradient(90deg,' + titleGrad1$$() + ' 0%, '+ titleGrad2$$() +' 100%)'"
+    >
+      <div
+        class="track-name"
+      >{{ currentTrack$$()?.name }} - {{trackArtists$$()}}  </div>
+      <hr
+        [ngStyle]="{
+          'border-color': barColor$$()
+        }">
+      <div class="bottom">
+        <div
+          class="song-position"
+        >{{ convertedSongPosition$$() | date: 'm:ss'}}
+        </div>
+        <div class="progress">
+          <div
+            class="progress-bar"
+            [ngStyle]="{
+                'background-color': shadowColor$$()
+            }"
+          >
+            <div
+              class="progress-bar-fill"
+              [ngStyle]="{
+                'width.%': calculatePercent$$(),
+                'background': barColor$$()
+                }"
+            ></div>
+          </div>
+        </div>
+        <div
+        >{{ convertedSongDuration$$() | date: 'm:ss'}}
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+

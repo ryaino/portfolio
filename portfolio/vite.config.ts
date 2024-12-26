@@ -9,21 +9,31 @@ export default defineConfig(({ mode }) => {
   return {
     root: __dirname,
     cacheDir: `../node_modules/.vite`,
-    
+
     build: {
       outDir: '../dist/./portfolio/client',
-      reportCompressedSize: true,    
+      reportCompressedSize: true,
       target: ['es2020'],
     },
     server: {
       fs: {
         allow: ['.'],
       },
-    },    
+    },
     plugins: [
-      
-      analog(),
-      
+      analog({
+        vite: {
+          inlineStylesExtension: 'scss'
+        },
+        nitro: {
+          storage: {
+            db: {
+              driver: "memory"
+            }
+          }
+        }
+      }),
+
       nxViteTsPaths(),
       splitVendorChunkPlugin(),
     ],
