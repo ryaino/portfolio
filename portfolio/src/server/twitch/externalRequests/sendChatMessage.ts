@@ -9,7 +9,7 @@ export async function SendChatMessage(message: string) {
     'Client-Id': import.meta.env['VITE_TWITCH_APPLICATION_CLIENT_ID'],
     'Content-Type': 'application/json',
   };
-  const response = await $fetch('https://api.twitch.tv/helix/chat/messages', {
+  await $fetch('https://api.twitch.tv/helix/chat/messages', {
     method: "POST",
     headers,
     body: {
@@ -18,5 +18,4 @@ export async function SendChatMessage(message: string) {
       message: message
     }
   });
-  console.log(response);
 }

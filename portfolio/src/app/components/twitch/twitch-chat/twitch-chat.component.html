@@ -1,0 +1,13 @@
+@for (message of chatMessages(); track $index) {
+  <div class="chat-message">
+    <div
+      class="chatter-name"
+      [ngStyle]="{
+        'color': message.color
+      }"
+    >
+      {{ message.chatterName }}
+    </div>
+    <div class="message-text">{{ message.message }}</div>
+  </div>
+}

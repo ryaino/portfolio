@@ -26,6 +26,9 @@ export default defineConfig(({ mode }) => {
           inlineStylesExtension: 'scss'
         },
         nitro: {
+          experimental: {
+            asyncContext: true,
+          },
           storage: {
             db: {
               driver: "memory"

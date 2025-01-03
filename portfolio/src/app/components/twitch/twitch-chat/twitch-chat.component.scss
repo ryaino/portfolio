@@ -1,0 +1,17 @@
+.chat-message {
+  animation: var(--animation-slide-in-right) forwards;
+  animation-timing-function: var(--ease-spring-3);
+  background: var(--gray-2);
+  border-radius: var(--radius-3);
+  border: var(--border-size-1) solid var(--gray-10);
+  padding: var(--size-1) var(--size-2);
+}
+
+.chatter-name {
+  font-family: var(--font-rounded-sans), sans-serif;
+}
+
+.message-text {
+  font-family: var(--font-industrial), serif;
+  color: var(--gray-10);
+}
