@@ -1,10 +1,10 @@
-import { RefreshAccessToken } from "./refreshAccessToken";
+import GetTwitchAccessToken from "../utils/getTwitchAccessToken";
 
 export async function GetTwitchUserInformation(chatterName: string) {
-  const newToken = await RefreshAccessToken();
+  const newToken = await GetTwitchAccessToken();
 
   const headers = {
-    Authorization: "Bearer " + newToken.access_token,
+    Authorization: "Bearer " + newToken,
     "Client-Id": import.meta.env["VITE_TWITCH_APPLICATION_CLIENT_ID"],
   };
 

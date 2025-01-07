@@ -18,7 +18,7 @@ const badOutcomes = [
 
 const allOutcomes = [...goodOutcomes, ...badOutcomes];
 
-const goodUsers = ["certified_nut"];
+const goodUsers = ["certified_nut, anistrae"];
 const badUsers = ["andy68758"];
 
 export async function HandlePP(event: ChatMessageEvent) {

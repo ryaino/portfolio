@@ -1,14 +1,14 @@
 import { defineEventHandler, readBody } from "h3";
 import { CreateEventSubscriptionDto } from "../../../../../shared/dtos/twitch/eventSubscriptionDtos";
-import { RefreshAccessToken } from "../../../../twitch/externalRequests/refreshAccessToken";
+import GetTwitchAccessToken from "../../../../twitch/utils/getTwitchAccessToken";
 
 export default defineEventHandler(async (event) => {
   let body: CreateEventSubscriptionDto = await readBody(event);
 
-  const freshAccessToken = await RefreshAccessToken();
+  const freshAccessToken = await GetTwitchAccessToken();
 
   const registerSubscriptionHeaders = {
-    Authorization: "Bearer " + freshAccessToken.access_token,
+    Authorization: "Bearer " + freshAccessToken,
     "Client-Id": import.meta.env["VITE_TWITCH_APPLICATION_CLIENT_ID"],
     "content-type": "application/json",
   };

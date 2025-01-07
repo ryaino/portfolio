@@ -45,6 +45,9 @@ import { FirstInteractionMessage } from "../../../shared/twitch/first-interactio
       <input [formControl]="version" type="text" placeholder="version" />
       <button (click)="registerSubscription()">Register Subscription</button>
     </div>
+    <button (click)="registerChannelChatMessageSubscription()">
+      Channel Chat Message
+    </button>
     <div>
       @if (displayProfilePictureUrl$$() !== null) {
         <img
@@ -112,6 +115,16 @@ export default class TwitchPage implements OnInit {
         webhookUrl: this.webhookUrl.value!,
         subscriptionType: this.subscriptionType.value!,
         version: this.version.value!,
+      }),
+    );
+  }
+
+  async registerChannelChatMessageSubscription() {
+    await firstValueFrom(
+      this.service.registerSubscription({
+        webhookUrl: this.webhookUrl.value! + "/api/v1/twitch/eventsub",
+        subscriptionType: "channel.chat.message",
+        version: "1",
       }),
     );
   }

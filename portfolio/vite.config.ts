@@ -1,8 +1,7 @@
 /// <reference types="vitest" />
-
-import analog from '@analogjs/platform';
-import { defineConfig, Plugin, splitVendorChunkPlugin } from 'vite';
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import analog from "@analogjs/platform";
+import { defineConfig, Plugin, splitVendorChunkPlugin } from "vite";
+import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -11,19 +10,19 @@ export default defineConfig(({ mode }) => {
     cacheDir: `../node_modules/.vite`,
 
     build: {
-      outDir: '../dist/./portfolio/client',
+      outDir: "../dist/./portfolio/client",
       reportCompressedSize: true,
-      target: ['es2020'],
+      target: ["es2020"],
     },
     server: {
       fs: {
-        allow: ['.'],
+        allow: ["."],
       },
     },
     plugins: [
       analog({
         vite: {
-          inlineStylesExtension: 'scss'
+          inlineStylesExtension: "scss",
         },
         nitro: {
           experimental: {
@@ -31,10 +30,10 @@ export default defineConfig(({ mode }) => {
           },
           storage: {
             db: {
-              driver: "memory"
-            }
-          }
-        }
+              driver: "memory",
+            },
+          },
+        },
       }),
 
       nxViteTsPaths(),
@@ -42,13 +41,13 @@ export default defineConfig(({ mode }) => {
     ],
     test: {
       globals: true,
-      environment: 'jsdom',
-      setupFiles: ['src/test-setup.ts'],
-      include: ['**/*.spec.ts'],
-      reporters: ['default'],
+      environment: "jsdom",
+      setupFiles: ["src/test-setup.ts"],
+      include: ["**/*.spec.ts"],
+      reporters: ["default"],
     },
     define: {
-      'import.meta.vitest': mode !== 'production',
+      "import.meta.vitest": mode !== "production",
     },
   };
 });
