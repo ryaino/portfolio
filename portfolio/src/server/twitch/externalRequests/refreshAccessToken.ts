@@ -1,7 +1,7 @@
 import {
   NewTwitchApplication,
-  twitchApplication,
-} from "../../../db/schema/twitchApplication";
+  TwitchApplicationTable,
+} from "../../../db/schema/twitch_application.table";
 import { db } from "../../plugins/db-setup";
 
 export async function RefreshAccessToken() {
@@ -30,6 +30,6 @@ export async function RefreshAccessToken() {
     expiresAt: Date.now() + newToken.expires_in,
   };
 
-  await db.insert(twitchApplication).values(newTwitchApplication);
+  await db.insert(TwitchApplicationTable).values(newTwitchApplication);
   return newToken;
 }
