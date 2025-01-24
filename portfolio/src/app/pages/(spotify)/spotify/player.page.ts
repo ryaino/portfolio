@@ -17,27 +17,25 @@ import { firstValueFrom, interval } from "rxjs";
   standalone: true,
   imports: [CommonModule, SpotifyPlayerComponent],
   template: `
-    <spotify-player
-      [currentTrack$$]="playerState$$()['item']"
-      [songDuration$$]="playerState$$()['item']['duration_ms']"
-      [songPosition$$]="playerState$$()['progress_ms']"
-    ></spotify-player>
-  `,
-  styles: `
-    :host {
-      background: transparent;
+    @if (playerState$$()) {
+      <spotify-player
+        [currentTrack$$]="playerState$$()['item']"
+        [songDuration$$]="playerState$$()['item']['duration_ms']"
+        [songPosition$$]="playerState$$()['progress_ms']"
+      ></spotify-player>
     }
   `,
+  styles: ``,
 })
 export default class PlayerPage implements OnInit {
-  playerState$$: WritableSignal<any> = signal(TestTrack);
+  playerState$$: WritableSignal<any> = signal(null);
   platformId = inject(PLATFORM_ID);
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
-      interval(1000).subscribe(async (x) => {
+      interval(2000).subscribe(async (x) => {
         await this.getPlayerState();
       });
     }

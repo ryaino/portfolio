@@ -10,6 +10,14 @@
   animation-delay: 0s, 0s, 5s, 5s;
 }
 
+:where(html) {
+  background-color: transparent;
+}
+
+:where(img) {
+  display: inline;
+}
+
 
 
 

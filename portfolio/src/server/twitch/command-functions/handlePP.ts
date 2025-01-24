@@ -14,11 +14,12 @@ const badOutcomes = [
   "Mechanical Pencil",
   "Burnt Patty",
   "Chopstick",
+  "Soggy Noodle",
 ];
 
 const allOutcomes = [...goodOutcomes, ...badOutcomes];
 
-const goodUsers = ["certified_nut, anistrae"];
+const goodUsers = ["certified_nut", "anistrae"];
 const badUsers = ["andy68758"];
 
 export async function HandlePP(event: ChatMessageEvent) {

@@ -52,7 +52,7 @@ export default defineEventHandler(async (event) => {
         for (const client of EVENT_STREAM_CLIENTS_CHAT_MESSAGES) {
           const chatMessage: ChatMessage = {
             chatterName: notification.event.chatter_user_name,
-            message: notification.event.message.text,
+            message: notification.event.message,
             color: notification.event.color,
           };
           await client.push({

@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
-import {RouterOutlet} from "@angular/router";
+import { Component } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
-  selector: 'spotify',
+  selector: "spotify",
   standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './spotify.page.html',
-
+  templateUrl: "./spotify.page.html",
 })
-export default class SpotifyPage {
-}
+export default class SpotifyPage {}

@@ -1,3 +1,12 @@
+:host {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+img {
+  display: inline;
+}
+
 .chat-message {
   animation: var(--animation-slide-in-right) forwards;
   animation-timing-function: var(--ease-spring-3);

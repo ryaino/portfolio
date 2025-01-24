@@ -1,9 +1,3 @@
-import {
-  NewTwitchApplication,
-  TwitchApplicationTable,
-} from "../../../db/schema/twitch_application.table";
-import { db } from "../../plugins/db-setup";
-
 export async function RefreshAccessToken() {
   const url = "https://id.twitch.tv/oauth2/token";
   const formData = new URLSearchParams({
@@ -25,11 +19,6 @@ export async function RefreshAccessToken() {
     headers: accessTokenHeaders,
     body: formData,
   });
-  const newTwitchApplication: NewTwitchApplication = {
-    access_token: newToken.access_token,
-    expiresAt: Date.now() + newToken.expires_in,
-  };
 
-  await db.insert(TwitchApplicationTable).values(newTwitchApplication);
   return newToken;
 }

@@ -1,4 +1,4 @@
-@for (message of chatMessages(); track $index) {
+@for (message of emotes$$(); track $index) {
   <div class="chat-message">
     <div
       class="chatter-name"
@@ -8,6 +8,6 @@
     >
       {{ message.chatterName }}
     </div>
-    <div class="message-text">{{ message.message }}</div>
+    <div class="message-text" [innerHtml]="message.text"></div>
   </div>
 }
